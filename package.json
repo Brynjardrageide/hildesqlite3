@@ -1,0 +1,16 @@
+{
+  "name": "slite3hilde",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
+    "sqlite3": "^5.1.6"
+  }
+}
