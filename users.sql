@@ -1,4 +1,4 @@
-CREATE TABLE USER (
+CREATE TABLE user (
     ID INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
     firstname TEXT NOT NULL,
@@ -7,3 +7,5 @@ CREATE TABLE USER (
     mobile TEXT NOT NULL,
     picture TEXT NOT NULL
 );
+
+DROP TABLE IF EXISTS USER;
