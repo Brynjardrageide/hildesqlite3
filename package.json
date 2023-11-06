@@ -1,16 +1,23 @@
 {
   "name": "slite3hilde",
   "version": "1.0.0",
-  "description": "",
+  "description": "//koble til databasen\r //tutorioal\r //lage tabell",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brynjardrageide/hildesqlite3.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Brynjardrageide/hildesqlite3/issues"
+  },
+  "homepage": "https://github.com/Brynjardrageide/hildesqlite3#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "node-fetch": "^3.3.2",
-    "sqlite3": "^5.1.6"
+    "better-sqlite3": "^9.0.0",
+    "express": "^4.18.2"
   }
 }
