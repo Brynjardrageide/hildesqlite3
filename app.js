@@ -9,19 +9,23 @@ app.use(express.static(path.join(__dirname, "public")));
  
 async function getUsers(request, response) {
  
-    const sql=db.prepare('SELECT username, firstname, lastname, mobile, picture FROM user')
+    const sql=db.prepare('SELECT username, firstname, lastname, email, mobile, picture FROM user')
     let rows = sql.all()   //await db.query(sql)
     if (rows.length === 0) {
         console.log("No users found. Empty DB")
  
         let apiUsers = await getAPIUsers()
         apiUsers.forEach(user => {
-            console.log(user.name.first, user.name.last)
-            addUser(user.login.username, user.name.first, user.name.last, user.cell, user.picture.large )
-        })
+            console.log(user.name.first, user.name.last, user.email, user.cell, user.picture.large);
+            // Now the function call matches the table schema and the SQL statement within the function.
+            addUser(user.login.username, user.name.first, user.name.last, user.email, user.cell, user.picture.large);
+        });
+        
  
+    } else {
+        response.send(rows)
     }
-/*
+/* 
     if (!request.query.results) {
         request.query.results = 10;
     }
@@ -36,13 +40,15 @@ async function getUsers(request, response) {
     const fetch_response = await fetch(url);
     const json = await fetch_response.json();
    
- */    response.send(json.results);
+    response.send(json.results); */
 }
  
-function addUser(username, firstName, lastName, mobile, picture) {
-    const sql = db.prepare("INSERT INTO user (username, firstName, lastName, mobile, picture) values (?, ?, ?, ?, ?)")
-    const info = sql.run(username, firstName, lastName, mobile, picture)
+function addUser(username, firstName, lastName, email, mobile, picture) {
+    // The SQL statement here now includes the 'email' column to match your table schema.
+    const sql = db.prepare("INSERT INTO user (username, firstName, lastName, email, mobile, picture) VALUES (?, ?, ?, ?, ?, ?)");
+    const info = sql.run(username, firstName, lastName, email, mobile, picture);
 }
+
  
 async function getAPIUsers() {
     const url="https://randomuser.me/api/?results=10&nat=no"
