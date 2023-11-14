@@ -3,9 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Husarbeid</title>
-    <link rel="stylesheet" href="./index.css" />
+    <title>Users</title>
   </head>
-  <body></body>
-  <script src="./index.js"></script>
+  <body>
+    <nav>
+      <a href="./html/input.html">input</a>
+      <a href="./html/delete.html">delete</a>
+    </nav>
+    <h1>Users</h1>
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>email</th>
+          <th>mobile</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="userDetails" style="display: none">
+      <form id="userForm">
+        <img id="userImage" src="" alt="User's Picture" />
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" readonly />
+        </div>
+        <div>
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" />
+        </div>
+        <div>
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname" />
+        </div>
+        <div>
+          <label for="email">e post</label>
+          <input type="text" id="email" />
+        </div>
+        <div>
+          <label for="mobile">mobile:</label>
+          <input type="text" id="mobile" />
+        </div>
+        <button type="submit">Update User</button>
+      </form>
+    </div>
+    <script src="./js/index.js"></script>
+  </body>
 </html>
