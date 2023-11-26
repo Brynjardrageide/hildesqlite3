@@ -1,18 +1,47 @@
 const express = require("express");
 const path = require("path");
-const sqlite3 = require('better-sqlite3')
-const db = sqlite3('./database/users.db', {verbose: console.log})
-const session = require('express-session')
+const sqlite3 = require('better-sqlite3');
+const session = require('express-session');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
+const staticPath = path.join(__dirname, 'public');
 
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(staticPath));
+
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-}))
+    saveUninitialized: false
+}));
+
+const validUser = {
+    username: 'user123',
+    password: 'pass123'
+};
+
+app.post('/login', (req, res) => {
+    console.log(req.body);
+    if (req.body.username === validUser.username && req.body.password === validUser.password) {
+        req.session.loggedIn = true;
+        res.redirect('/');
+    } else {
+        req.session.loggedIn = false;
+        res.sendFile(path.join(__dirname, "public/loginForm.html"));
+    }
+});
+
+app.use((req, res, next) => {
+    console.log(req.session.loggedIn);
+    if (req.session.loggedIn) {
+        console.log("User is logged in");
+        next();
+    } else {
+        res.sendFile(path.join(__dirname, "public/loginForm.html"));
+    }
+});
 
 
 async function getUsers(request, response) {
@@ -76,12 +105,28 @@ async function getAPIUsers() {
     return(json.results)
 
 }
+async function updateUser(request,response) {
+    console.log(request.body)
+    const user = request.body
+    updateUserDB(user.username, user.name.first, user.name.last, user.email, user.mobile)
+}
 
 
 app.get("/users", getUsers);
 
 app.put("/user", updateUser);
 app.post("/user", addUser);
+app.post('/login', (req, res) => {
+    console.log(req.body)
+    if (req.body.username === validUser.username && req.body.password === validUser.password) {
+        req.session.loggedIn = true;
+        res.redirect('/');
+    } else {
+        req.session.loggedIn = false;
+        res.sendFile(path.join(__dirname, "public/loginForm.html"));
+    }
+    
+});
 
 app.delete('/user/:id', (req, res) => {
     const { id } = req.params;
@@ -98,16 +143,6 @@ app.delete('/user/:id', (req, res) => {
     }
 });
 
-
-
-
-
-
-async function updateUser(request,response) {
-    console.log(request.body)
-    const user = request.body
-    updateUserDB(user.username, user.name.first, user.name.last, user.email, user.mobile)
-}
 
 app.get("/users.html", (req, res) => {
     res.sendFile(path.join(__dirname, "public/users.html"));
